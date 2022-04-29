@@ -1,0 +1,34 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: cimg/rust:1.59.0
+    resource_class: medium+
+    steps:
+      - checkout
+      - run:
+          name: Check Formatting
+          command: cargo fmt && git diff --exit-code
+      - run:
+          name: Clippy
+          command: cargo clippy -- -D warnings
+      - run:
+          name: Build
+          command: cargo build
+
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build
+
+  test-daily:
+    triggers:
+    - schedule:
+        cron: "0 6 * * *"
+        filters:
+          branches:
+            only: master
+    jobs:
+      - build

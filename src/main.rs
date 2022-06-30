@@ -1,14 +1,11 @@
-// Set SDK_KEY to your LaunchDarkly SDK key.
-// Set FEATURE_FLAG_KEY to the feature flag key you want to evaluate.
-
 use launchdarkly_server_sdk::{Client, ConfigBuilder, User};
 
 #[tokio::main]
 async fn main() {
     env_logger::init();
     
-    let sdk_key = std::env::var("SDK_KEY").expect("Please edit main.rs to set SDK_KEY to your LaunchDarkly SDK key first");
-    let feature_flag_key = std::env::var("FEATURE_FLAG_KEY").expect("Please edit main.rs to set FEATURE_FLAG_KEY to your LaunchDarkly flag key first");
+    let sdk_key = std::env::var("SDK_KEY").expect("SDK_KEY env not set");
+    let feature_flag_key = std::env::var("FEATURE_FLAG_KEY").expect("FEATURE_FLAG_KEY env not set");
 
     let config = ConfigBuilder::new(&sdk_key).build();
     let client = Client::build(config).expect("Client failed to build");

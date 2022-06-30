@@ -4,7 +4,7 @@ use launchdarkly_server_sdk::{Client, ConfigBuilder, User};
 async fn main() {
     env_logger::init();
 
-    let sdk_key = std::env::var("LAUNCHDARKLY_SDK_KEY").expect("LAUNCHDARKLY_SDK_KEY env not set");
+    let sdk_key = std::env::var("SDK_KEY").expect("SDK_KEY env not set");
     let feature_flag_key = std::env::var("FEATURE_FLAG_KEY").expect("FEATURE_FLAG_KEY env not set");
 
     let config = ConfigBuilder::new(&sdk_key).build();
@@ -15,7 +15,7 @@ async fn main() {
 
     // Wait to ensure the client has fully initialized.
     if !client.initialized_async().await {
-        panic!("Client failed to successfully initialize");
+        panic!("SDK failed to initialize");
     }
 
     // Set up the user properties. This user should appear on your LaunchDarkly users dashboard

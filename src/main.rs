@@ -4,8 +4,8 @@ use launchdarkly_server_sdk::{Client, ConfigBuilder, User};
 async fn main() {
     env_logger::init();
 
-    let sdk_key = std::env::var("SDK_KEY").expect("SDK_KEY env not set");
-    let feature_flag_key = std::env::var("FEATURE_FLAG_KEY").expect("FEATURE_FLAG_KEY env not set");
+    let sdk_key = std::env::var("SDK_KEY").expect("SDK_KEY env should be set");
+    let feature_flag_key = std::env::var("FEATURE_FLAG_KEY").expect("FEATURE_FLAG_KEY env should be set");
 
     let config = ConfigBuilder::new(&sdk_key).build();
     let client = Client::build(config).expect("Client failed to build");

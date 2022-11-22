@@ -1,4 +1,4 @@
-use launchdarkly_server_sdk::{Client, ConfigBuilder, User};
+use launchdarkly_server_sdk::{Client, ConfigBuilder, ContextBuilder};
 
 #[tokio::main]
 async fn main() {
@@ -21,7 +21,9 @@ async fn main() {
 
     // Set up the user properties. This user should appear on your LaunchDarkly users dashboard
     // soon after you run the demo.
-    let user = User::with_key("example-user-key").name("Sandy").build();
+    let user = ContextBuilder::new("example-user-key")
+        .build()
+        .expect("User context failed to build");
 
     let result = client.bool_variation(&user, &feature_flag_key, false);
     println!(

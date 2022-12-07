@@ -1,4 +1,4 @@
-use launchdarkly_server_sdk::{Client, ConfigBuilder, User};
+use launchdarkly_server_sdk::{Client, ConfigBuilder, ContextBuilder};
 
 #[tokio::main]
 async fn main() {
@@ -19,18 +19,20 @@ async fn main() {
         panic!("SDK failed to initialize");
     }
 
-    // Set up the user properties. This user should appear on your LaunchDarkly users dashboard
+    // Set up the context properties. This context should appear on your LaunchDarkly contexts dashboard
     // soon after you run the demo.
-    let user = User::with_key("example-user-key").name("Sandy").build();
+    let context = ContextBuilder::new("example-user-key")
+        .build()
+        .expect("Context failed to build");
 
-    let result = client.bool_variation(&user, &feature_flag_key, false);
+    let result = client.bool_variation(&context, &feature_flag_key, false);
     println!(
-        "Feature flag '{}' is {} for this user",
+        "Feature flag '{}' is {} for this context",
         feature_flag_key, result
     );
 
     // Here we ensure that the SDK shuts down cleanly and has a chance to deliver analytics events
-    // to LaunchDarkly before the program exits. If analytics events are not delivered, the user
+    // to LaunchDarkly before the program exits. If analytics events are not delivered, the context
     // properties and flag usage statistics will not appear on your dashboard. In a normal
     // long-running application, the SDK would continue running and events would be delivered
     // automatically in the background.

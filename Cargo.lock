@@ -811,9 +811,9 @@ dependencies = [
 
 [[package]]
 name = "launchdarkly-server-sdk"
-version = "1.0.0-beta.5"
+version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9d5365cf5e1f79681568cef0bea026508a6a09c8a6a1c1afa8ce72fbe0a3be96"
+checksum = "e2cb3808956d71e225bc488b4e0c6fe13d7ac53a181179e476393402a915a0ea"
 dependencies = [
  "built",
  "chrono",

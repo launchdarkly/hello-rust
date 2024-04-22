@@ -11,9 +11,13 @@ fn show_evaluation_result(feature_flag_key: &str, result: bool) {
         feature_flag_key,
         result,
     );
+
+    if result {
+        show_banner();
+    }
 }
 
-fn print_banner() {
+fn show_banner() {
     println!("                 ");
     println!("        ██       ");
     println!("          ██     ");
@@ -61,7 +65,6 @@ async fn main() {
         .build()
         .expect("Context failed to build");
 
-    let mut show_banner = true;
     let mut last_value = None;
 
     loop {
@@ -69,14 +72,9 @@ async fn main() {
 
         if Some(result) != last_value {
             show_evaluation_result(&feature_flag_key, result);
+            last_value = Some(result);
         }
 
-        if show_banner && result {
-            print_banner();
-            show_banner = false;
-        }
-
-        last_value = Some(result);
         thread::sleep(time::Duration::from_secs(1));
 
         if ci.is_some() {

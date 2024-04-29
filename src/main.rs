@@ -1,15 +1,11 @@
 use std::{thread, time};
 
-use chrono::Local;
 use launchdarkly_server_sdk::{Client, ConfigBuilder, ContextBuilder};
 
 fn show_evaluation_result(feature_flag_key: &str, result: bool) {
-    let now = Local::now();
     println!(
-        "*** {}: The {} feature flag evaluates to {}",
-        now.format("%H:%M:%S"),
-        feature_flag_key,
-        result,
+        "*** The {} feature flag evaluates to {}",
+        feature_flag_key, result,
     );
 
     if result {
@@ -36,8 +32,8 @@ async fn main() {
     env_logger::init();
 
     // Set sdk_key to your LaunchDarkly SDK key.
-    let sdk_key = std::env::var("LAUNCHDARKLY_SERVER_KEY")
-        .expect("LAUNCHDARKLY_SERVER_KEY env should be set");
+    let sdk_key =
+        std::env::var("LAUNCHDARKLY_SDK_KEY").expect("LAUNCHDARKLY_SDK_KEY env should be set");
     // Set feature_flag_key to the feature flag key you want to evaluate.
     let feature_flag_key =
         std::env::var("LAUNCHDARKLY_FLAG_KEY").unwrap_or(String::from("sample-feature"));

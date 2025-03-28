@@ -6,7 +6,8 @@ edition = "2018"
 
 [dependencies]
 env_logger = "0.10.0"
-launchdarkly-server-sdk = ">2.0.0"
+launchdarkly-server-sdk = "=2.0.2"
+launchdarkly-server-sdk-evaluation = "=1.1.1"
 tokio = { version = "1.15.0", features = ["rt", "macros"] }
 
 [features]

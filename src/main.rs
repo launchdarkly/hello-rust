@@ -1,4 +1,8 @@
+use crate::aws_lc_rs::{event_processor_fips, streaming_data_source_fips};
+use std::time::Duration;
 use std::{thread, time};
+
+pub mod aws_lc_rs;
 
 use launchdarkly_server_sdk::{Client, ConfigBuilder, ContextBuilder};
 
@@ -39,9 +43,20 @@ async fn main() {
         std::env::var("LAUNCHDARKLY_FLAG_KEY").unwrap_or(String::from("sample-feature"));
     let ci = std::env::var("CI").ok();
 
+    // Create a streaming data source that uses aws-lc-rs instead of ring
+    let mut streaming_data_source = streaming_data_source_fips();
+    streaming_data_source.initial_reconnect_delay(Duration::from_secs(1));
+
+    // Create an event processor that also uses aws-lc-rs instead of ring
+    let mut event_processor = event_processor_fips();
+    event_processor.flush_interval(Duration::from_secs(5));
+
     let config = ConfigBuilder::new(&sdk_key)
+        .data_source(&streaming_data_source)
+        .event_processor(&event_processor)
         .build()
-        .expect("Config failed to build");
+        .expect("failed to build config");
+
     let client = Client::build(config).expect("Client failed to build");
 
     // Starts the client using the currently active runtime.

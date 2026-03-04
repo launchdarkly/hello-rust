@@ -1,4 +1,7 @@
-use std::{thread, time};
+use std::{
+    thread,
+    time::{self, Duration},
+};
 
 use launchdarkly_server_sdk::{Client, ConfigBuilder, ContextBuilder};
 
@@ -48,8 +51,10 @@ async fn main() {
     client.start_with_default_executor();
 
     // Wait to ensure the client has fully initialized.
-    if !client.initialized_async().await {
-        panic!("*** SDK failed to initialize. Please check your internet connection and SDK credential for any typo.");
+    let initialized = client.wait_for_initialization(Duration::from_secs(5)).await;
+
+    if !initialized.unwrap_or(false) {
+        panic!("*** SDK failed to initialize within 5 seconds. Please check your internet connection and SDK credential for any typo.");
     }
 
     println!("*** SDK successfully initialized.");

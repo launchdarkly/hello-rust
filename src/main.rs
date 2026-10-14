@@ -82,4 +82,6 @@ async fn main() {
             break;
         }
     }
+
+    client.close();
 }

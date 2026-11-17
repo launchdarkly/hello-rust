@@ -22,8 +22,12 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      - name: Get Rust version
+        id: rust-version
+        run: cat ./.github/variables/rust-versions.env >> $GITHUB_OUTPUT
+
       - name: Setup rust tooling
-        run: rustup override set 1.97.0
+        run: rustup override set ${{ steps.rust-version.outputs.target }}
 
       - uses: launchdarkly/gh-actions/actions/verify-hello-app@verify-hello-app-v2.0.1
         with:

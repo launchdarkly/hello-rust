@@ -1,0 +1,16 @@
+name: Check Supported Rust Versions
+on:
+  schedule:
+    - cron: "0 17 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  check-rust-versions:
+    permissions:
+      contents: write
+      pull-requests: write
+    uses: launchdarkly/gh-actions/.github/workflows/sdk-rust-versions.yml@main
+    with:
+      pr_title_prefix: chore

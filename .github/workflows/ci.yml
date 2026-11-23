@@ -31,7 +31,7 @@ jobs:
           RUST_TARGET: ${{ steps.rust-version.outputs.target }}
         run: rustup override set "$RUST_TARGET"
 
-      - uses: launchdarkly/gh-actions/actions/verify-hello-app@verify-hello-app-v2.0.2
+      - uses: launchdarkly/gh-actions/actions/verify-hello-app@verify-hello-app/v2.0.2
         with:
           use_server_key: true
           role_arn: ${{ vars.AWS_ROLE_ARN }}
